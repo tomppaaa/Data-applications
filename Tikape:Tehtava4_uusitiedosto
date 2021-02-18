@@ -1,0 +1,8 @@
+import sqlite3
+import os
+
+os.system("rm testi.db")
+db = sqlite3.connect("testi.db")
+db.isolation_level = None
+db.execute("CREATE TABLE Testi (x INTEGER)")
+#db.execute("CREATE TABLE Testi (x INTEGER UNIQUE)")
