@@ -1,0 +1,57 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2577
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 >db.createCollection("Tyontekijat")\
+> db.Tyontekijat.insert(\{id: 1, nimi: "Maija", yritys: "Google", Palkka:8000\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.insert(\{id: 2, nimi: "Uolevi", yritys: "Amazon", Palkka:5000\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.insert(\{id: 3, nimi: "Kotivalo", yritys: "Google", Palkka:7000\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.insert(\{id: 4, nimi: "Kaaleppi", yritys: "Facebook", Palkka:6000\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.insert(\{id: 5, nimi: "Liisa", yritys: "Amazon", Palkka:9000\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.insert(\{id: 6, nimi: "Anna", yritys: "Amazon", Palkka:6500\})\
+WriteResult(\{ "nInserted" : 1 \})\
+> db.Tyontekijat.find()\
+\{ "_id" : ObjectId("6030442b1ae2282e0a7f1099"), "id" : 1, "nimi" : "Maija", "yritys" : "Google", "Palkka" : 8000 \}\
+\{ "_id" : ObjectId("603044fc1ae2282e0a7f109a"), "id" : 2, "nimi" : "Uolevi", "yritys" : "Amazon", "Palkka" : 5000 \}\
+\{ "_id" : ObjectId("603045361ae2282e0a7f109b"), "id" : 3, "nimi" : "Kotivalo", "yritys" : "Google", "Palkka" : 7000 \}\
+\{ "_id" : ObjectId("6030456a1ae2282e0a7f109c"), "id" : 4, "nimi" : "Kaaleppi", "yritys" : "Facebook", "Palkka" : 6000 \}\
+\{ "_id" : ObjectId("603045901ae2282e0a7f109d"), "id" : 5, "nimi" : "Liisa", "yritys" : "Amazon", "Palkka" : 9000 \}\
+\{ "_id" : ObjectId("603045aa1ae2282e0a7f109e"), "id" : 6, "nimi" : "Anna", "yritys" : "Amazon", "Palkka" : 6500 \}\
+\
+> db.Tyontekijat.update(\{id : 2\},\{$set: \{Palkka : 5500\}\})\
+WriteResult(\{ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 \})\
+> db.Tyontekijat.find()\
+\{ "_id" : ObjectId("6030442b1ae2282e0a7f1099"), "id" : 1, "nimi" : "Maija", "yritys" : "Google", "Palkka" : 8000 \}\
+\{ "_id" : ObjectId("603044fc1ae2282e0a7f109a"), "id" : 2, "nimi" : "Uolevi", "yritys" : "Amazon", "Palkka" : 5500 \}\
+\{ "_id" : ObjectId("603045361ae2282e0a7f109b"), "id" : 3, "nimi" : "Kotivalo", "yritys" : "Google", "Palkka" : 7000 \}\
+\{ "_id" : ObjectId("6030456a1ae2282e0a7f109c"), "id" : 4, "nimi" : "Kaaleppi", "yritys" : "Facebook", "Palkka" : 6000 \}\
+\{ "_id" : ObjectId("603045901ae2282e0a7f109d"), "id" : 5, "nimi" : "Liisa", "yritys" : "Amazon", "Palkka" : 9000 \}\
+\{ "_id" : ObjectId("603045aa1ae2282e0a7f109e"), "id" : 6, "nimi" : "Anna", "yritys" : "Amazon", "Palkka" : 6500 \}\
+\
+> db.Tyontekijat.find( \{ yritys: "Amazon" \},\{_id:0,nimi:1,Palkka:1\} )\
+\{ "nimi" : "Uolevi", "Palkka" : 5500 \}\
+\{ "nimi" : "Liisa", "Palkka" : 9000 \}\
+\{ "nimi" : "Anna", "Palkka" : 6500 \}\
+\
+db.Tyontekijat.find(\{yritys:'Google'\}).count()\
+2\
+\
+> db.Tyontekijat.find( \{Palkka: \{ $gt: 6000 \}\} , \{_id:0,nimi:1, yritys:1\} )\
+\{ "nimi" : "Maija", "yritys" : "Google" \}\
+\{ "nimi" : "Kotivalo", "yritys" : "Google" \}\
+\{ "nimi" : "Liisa", "yritys" : "Amazon" \}\
+\{ "nimi" : "Anna", "yritys" : "Amazon" \}\
+\
+> db.Tyontekijat.aggregate([\{$group:\{_id:"$yritys","COUNT":\{$sum:1\}, "MAX(palkka)": \{$max:"$Palkka"\}\}\}]);\
+\{ "_id" : "Facebook", "COUNT" : 1, "MAX(palkka)" : 6000 \}\
+\{ "_id" : "Google", "COUNT" : 2, "MAX(palkka)" : 8000 \}\
+\{ "_id" : "Amazon", "COUNT" : 3, "MAX(palkka)" : 9000 \}\
+}
